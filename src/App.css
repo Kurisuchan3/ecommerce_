@@ -12,7 +12,9 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
-
+body {
+  border: 2px solid red;
+}
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -35,4 +37,83 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/*
+-------------sidebar -----------------
+*/
+
+/* Sidebar */
+.sidebar {
+  background-color: #e5e7eb; /* Light Gray */
+  height: 100vh;
+  width: 250px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Top Blue Section (Matches Topbar) */
+.sidebar-header {
+  background-color: rgb(35, 132, 230); /* Same as Topbar */
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo {
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* Sidebar Links */
+.nav-link {
+  font-size: 16px;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  color: #333;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.nav-link:hover, .nav-link.active-link {
+  background-color: white;
+  color: black;
+  font-weight: bold;
+}
+
+/* Mobile Sidebar */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+}
+.sidebar {
+  width: 250px;
+  height: calc(100vh - 70px); /* Adjust based on your topbar height */
+  position: relative;
+  top: 0px; /* Increase this value to push it lower */
+  left: 0;
+  background-color: #e0e3e7;
+  color: black;
+  padding-top: 20px;
+}
+
+
+.topbar {
+  width: calc(100% - 250px);  /* Adjust to match sidebar */
+  margin-left: 250px;  /* Align with sidebar */
+  background-color: rgb(35, 132, 230);
+  height: 60px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  transition: all 0.3s;
 }
