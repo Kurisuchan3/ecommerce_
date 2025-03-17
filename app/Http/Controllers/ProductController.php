@@ -29,51 +29,30 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request,$id)
+    public function store(Request $request)
     {
 
-        $validatedData = $request->validate([
-            'product_name' => 'required|string|max:255',
-            'brand' => 'nullable|string|max:255',
-            'price' => 'required|numeric|min:0',
-            'quantity' => 'required|integer|min:1',
-            'description' => 'nullable|string',
-            'specification' => 'nullable|string',
-            'image' => 'nullable|image|max:2048', // Allow only image files up to 2MB
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('products', 'public');
+        }
+
+        // Create Product
+        $product = Product::create([
+            'product_name'  => $request->input('product_name'),
+            'brand'         => $request->input('brand'),
+            'price'         => $request->input('price'),
+            'quantity'      => $request->input('quantity'),
+            'description'   => $request->input('description'),
+            'specification' => $request->input('specification'),
+            'image'         => $imagePath
         ]);
 
-        // // Handle Image Upload
-        // $imagePath = null;
-        // if ($request->hasFile('image')) {
-        //     $imagePath = $request->file('image')->store('products', 'public');
-        // }
+        return response()->json([
+            'message' => 'Product added successfully!',
+            'product' => $product
+        ], 201);
 
-        // // Create Product
-        // $product = Product::create([
-        //     'product_name'  => $request->input('product_name'),
-        //     'brand'         => $request->input('brand'),
-        //     'price'         => $request->input('price'),
-        //     'quantity'      => $request->input('quantity'),
-        //     'description'   => $request->input('description'),
-        //     'specification' => $request->input('specification'),
-        //     'image'         => $imagePath
-        // ]);
-
-        // return response()->json([
-        //     'message' => 'Product added successfully!',
-        //     'product' => $product
-        // ], 201);
-
-
-
-        try {
-            $product = Product::findOrFail($id);
-            $product->update($validatedData);
-
-            return response()->json(['message' => 'Product updated successfully!']);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
 
     }
 

@@ -28,7 +28,7 @@ const Dashboard = () => {
                     {[
                       { title: "Total Users", icon: <FaUsers />, value: "100" },
                       { title: "Orders", icon: <FaShoppingCart />, value: "250" },
-                      { title: "Revenue", icon: <FaPesoSign />, value: "₱10,000" }
+                      { title: "Revenue", icon: <FaDollarSign />, value: "₱10,000" }
                     ].map((card, index) => (
                       <Col md={4} sm={6} xs={12} key={index} className="mb-3">
                         <Card className="shadow-sm border-0" style={{ backgroundColor: "#F3F4F6" }}>

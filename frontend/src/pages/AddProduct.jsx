@@ -3,10 +3,12 @@ import Topbar from "../components/Topbar";
 import { Container, Row, Col, Card, Form, Button, InputGroup} from "react-bootstrap";
 import React, { useState } from "react";
 import axios from "axios";
+import { Link,useNavigate } from "react-router-dom";
+
 
 const AddProduct = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
-
+    const navigate = useNavigate()
   const [formData, setFormData] = useState({
     product_name: "",
     brand: "",
@@ -39,8 +41,9 @@ const AddProduct = () => {
       });
 
       alert(response.data.message);
+      navigate("/products");
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error:", error.response?.data || error.message);
       alert("Failed to add product.");
     }
   };

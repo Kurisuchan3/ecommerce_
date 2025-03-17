@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 const ProductList = () => {
      const [sidebarOpen, setSidebarOpen] = useState(false);
 
-    const [products, setProducts] = useState([]); // ✅ Ensure products state exists
+    const [products, setProducts] = useState([]);
 
   useEffect(() => {
     fetchProducts();
@@ -19,7 +19,7 @@ const ProductList = () => {
   const fetchProducts = async () => {
     try {
       const response = await axios.get("http://localhost:8000/api/products");
-      setProducts(response.data); // ✅ Store API data in state
+      setProducts(response.data);
       console.log("Fetched Products:", response.data); // Debugging line
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -55,7 +55,7 @@ const ProductList = () => {
         </thead>
         <tbody>
           {products.length > 0 ? (
-            products.map((product) => ( // ✅ Ensure product is defined inside map()
+            products.map((product) => (
               <tr key={product.id}>
                 <td>{product.id}</td>
                 <td>
@@ -67,7 +67,7 @@ const ProductList = () => {
                     height="50"
                     style={{ objectFit: "cover", marginLeft: "10px",marginRight: "10px", borderRadius: "5px", justify:"center" }}
                 />
-                {product.product_name}asdasdasd</td>
+                {product.product_name}</td>
                 <td>{product.brand || "N/A"}</td>
                 {/* <td>₱{product.price.toFixed(2)}</td> */}
                 <td>₱{product.price ? Number(product.price).toFixed(2) : "0.00"}</td>

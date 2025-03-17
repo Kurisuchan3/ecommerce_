@@ -8,6 +8,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\RatingController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -48,5 +50,12 @@ Route::middleware([EnsureFrontendRequestsAreStateful::class])->group(function ()
     Route::get('/view_product/{id}', [ProductController::class, 'show']);
 
 
-    Route::get('/customer/products', [CustomerController::class, 'index']);
+    Route::get('/customer/products', [ProductController::class, 'index']);
+
+
+    Route::post('/cart', [CartController::class, 'store']);
+    Route::get('/cart/{user_id}', [CartController::class, 'getCartItems']);
+
+    Route::post('/ratings', [RatingController::class, 'store']);
+    Route::get('/ratings/{product_id}', [RatingController::class, 'getProductRatings']);
 });

@@ -19,7 +19,7 @@ import ProductView from "./pages/ProductView";    // Create a product
 
 
 import ProductList from "./pages/customer/Product_list";    // Create a product
-
+// import ProductList from "./pages/customer/Product_list";    // Create a product
 
 function App() {
   return (
