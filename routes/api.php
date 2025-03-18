@@ -53,8 +53,8 @@ Route::middleware([EnsureFrontendRequestsAreStateful::class])->group(function ()
     Route::get('/customer/products', [ProductController::class, 'index']);
 
 
-    Route::post('/cart', [CartController::class, 'store']);
-    Route::get('/cart/{user_id}', [CartController::class, 'getCartItems']);
+    Route::post('customer/cart', [CartController::class, 'store']);
+    Route::get('customer/cart/{user_id}', [CartController::class, 'getCartItems']);
 
     Route::post('/ratings', [RatingController::class, 'store']);
     Route::get('/ratings/{product_id}', [RatingController::class, 'getProductRatings']);

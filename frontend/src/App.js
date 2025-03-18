@@ -6,10 +6,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import './App.css';
 import React from "react";
-import Navbar from "./components/Navbar";  // Import Register Page
 import Register from "./pages/Register";  // Import Register Page
 import Login from "./pages/Login";  // Import Login Page
-// import Home from "./pages/Home";    // Create a Home Page
 import Dashboard from "./pages/Dashboard";    // Create a Dashboard Page
 import Users from "./pages/Users";    // Create a users Page
 import AddProduct from "./pages/AddProduct";    // Create a product Page
@@ -18,8 +16,9 @@ import Products from "./pages/Product_list";    // Create a product Page
 import ProductView from "./pages/ProductView";    // Create a product
 
 
-import ProductList from "./pages/customer/Product_list";    // Create a product
-// import ProductList from "./pages/customer/Product_list";    // Create a product
+import ProductList from "./pages/customer/Product_list";
+import Cart from "./pages/customer/Cart";
+
 
 function App() {
   return (
@@ -27,8 +26,7 @@ function App() {
 <Routes>
       <Route path="/" element={<Dashboard />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/Register" element={<Register />} />
-      <Route path="/Navbar" element={<Navbar />} />
+      <Route path="/register" element={<Register />} />
       <Route path="/Dashboard" element={<Dashboard />} />
       <Route path="/users" element={<Users />} />
       <Route path="/addproduct" element={<AddProduct />} />
@@ -37,6 +35,7 @@ function App() {
       <Route path="/view_product/:id" element={<ProductView />} />
 
       <Route path="/customer/products" element={<ProductList />} />
+      <Route path="/customer/cart" element={<Cart />} />
   </Routes>
   );
 }

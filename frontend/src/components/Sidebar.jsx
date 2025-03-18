@@ -8,11 +8,15 @@ import {
 const Sidebar = () => {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(true);
+  const user = JSON.parse(sessionStorage.getItem("user")); // Get user data from sessionStorage
 
   const menuItems = [
     { name: "Dashboard", icon: <FaTachometerAlt />, path: "/dashboard" },
     { name: "Orders", icon: <FaShoppingCart />, path: "/orders" },
-    { name: "Products", icon: <FaBoxOpen />, path: "/products" },
+    ...(user && user.role === "admin" ? [{ name: "Products", icon: <FaBoxOpen />, path: "/products" }] : []),
+    ...(user && user.role === "customer" ? [{ name: "Products", icon: <FaBoxOpen />, path: "/customer/products" }] : []),
+
+    // { name: "Products", icon: <FaBoxOpen />, path: "/products" },
     { name: "Inventory", icon: <FaWarehouse />, path: "/inventory" },
     { name: "Cancellation Requests", icon: <FaTimesCircle />, path: "/cancellation-requests" },
     { name: "Users", icon: <FaUsers />, path: "/users" },

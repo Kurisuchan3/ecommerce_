@@ -1,0 +1,10 @@
+.custom-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px; /* Adjust spacing */
+  }
+
+  .custom-col {
+    width: calc(100% / 5 - 15px); /* 5 items per row */
+  }

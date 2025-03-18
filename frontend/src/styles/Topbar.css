@@ -1,0 +1,14 @@
+/* src/styles/Topbar.css */
+.nav-link-custom {
+    color: white !important;
+    text-decoration: none;
+    padding: 0.5rem;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+
+  .nav-link-custom:hover {
+    color: rgb(13, 27, 224) !important;
+    /* background-color: transparent !important; */
+    background-color: white !important
+  }

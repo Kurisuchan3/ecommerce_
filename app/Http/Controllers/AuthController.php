@@ -15,13 +15,24 @@ class AuthController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6'
+            'password' => 'required|string|min:6',
+            'role' => 'required|string|max:255',
+            'phone' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'status' => 'required|string|max:255'
+
+
+
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => $request->role,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'status' => $request->status,
         ]);
 
         return response()->json(['message' => 'User registered successfully'], 201);
@@ -50,7 +61,7 @@ class AuthController extends Controller
     }
 
 
-    // 🔴 Logout User
+
     public function logout(Request $request)
     {
         Auth::guard('web')->logout();

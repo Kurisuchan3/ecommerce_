@@ -11,7 +11,8 @@ const Register = () => {
     email: "",
     password: "",
     confirmPassword: "",
-    role: "user",
+    role: "",
+    status: "active",
     phone: "",
     address: "",
   });
@@ -41,21 +42,26 @@ const Register = () => {
     //   });
 
     try {
-
-      await axios.post("http://localhost:8000/api/register", formData);
+      await axios.post("http://localhost:8000/api/register", formData, {
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+      });
       setSuccess("Registration successful! You can now log in.");
-      navigate("/login"); // Redirect to login after registration
-      setFormData({ name: "", email: "", password: "", confirmPassword: "", role: "user", phone: "", address: "" });
+      navigate("/login");
     } catch (err) {
-      setError("Registration failed. Please try again.");
+      console.error(err.response); // Log error response
+      setError(err.response?.data?.message || "Registration failed. Please try again.");
     }
   };
 
   return (
-    <Container className="d-flex justify-content-center align-items-center vh-100">
-      <Card style={{ width: "30rem" }} className="p-4 shadow">
+    <Container className="d-flex justify-content-center align-items-center min-vh-100">
+      <Card style={{ width: "100%", maxWidth: "500px" }} className="p-4 shadow">
+
         <Card.Body>
-          <h2 className="text-center mb-4">Register</h2>
+        <br></br><br></br> <h2 className="text-center mb-4">Register</h2>
           {error && <Alert variant="danger">{error}</Alert>}
           {success && <Alert variant="success">{success}</Alert>}
           <Form onSubmit={handleRegister}>
@@ -77,18 +83,27 @@ const Register = () => {
             </Form.Group>
             <Form.Group className="mb-3" controlId="role">
               <Form.Label>Role</Form.Label>
-              <Form.Select name="role" value={formData.role} onChange={handleChange}>
-                <option value="user">User</option>
+              <Form.Select name="role" value={formData.role} onChange={handleChange} required>
+                <option value="">Select Role</option> {/* Prevent empty value */}
+                <option value="seller">seller</option>
+                <option value="customer">User</option>
                 <option value="admin">Admin</option>
               </Form.Select>
             </Form.Group>
+
             <Form.Group className="mb-3" controlId="phone">
               <Form.Label>Phone</Form.Label>
-              <Form.Control type="text" name="phone" value={formData.phone} onChange={handleChange} required />
+              <Form.Control type="number" name="phone" value={formData.phone} onChange={handleChange} required />
             </Form.Group>
+            <Form.Group className="mb-3" controlId="status">
+            <Form.Label>Status</Form.Label>
+            <Form.Control type="text" name="status" value={formData.status} onChange={handleChange} required />
+          </Form.Group>
+
             <Form.Group className="mb-3" controlId="address">
               <Form.Label>Address</Form.Label>
               <Form.Control type="text" name="address" value={formData.address} onChange={handleChange} required />
+
             </Form.Group>
             <Button variant="primary" type="submit" className="w-100">Register</Button>
           </Form>
