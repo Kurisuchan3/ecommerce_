@@ -7,6 +7,7 @@ import axios from "axios";
 import "../../styles/Topbar.css"; // Import CSS for styling
 
 const Topbar = ({ toggleSidebar }) => {
+  const user_id = JSON.parse(sessionStorage.getItem("user")); // Get user data from sessionStorage
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
@@ -45,8 +46,8 @@ const Topbar = ({ toggleSidebar }) => {
           <Nav.Link as={NavLink} to="/home" className="nav-link-custom px-3">
           Orders
           </Nav.Link>
-          <Nav.Link as={NavLink} to="/home" className="nav-link-custom px-3">
-          Cart
+          <Nav.Link as={NavLink} to={`/customer/cart/${user_id.id}`} className="nav-link-custom px-3">
+            Cart
           </Nav.Link>
         </Nav>
       </Navbar.Collapse>

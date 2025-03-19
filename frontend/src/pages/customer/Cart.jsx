@@ -2,10 +2,8 @@ import Topbar from "../customer/Topbar";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Container, Row, Col, Table, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
 
 const Cart = () => {
-    const [sidebarOpen, setSidebarOpen] = useState(false);
     const [cartItems, setCartItems] = useState([]);
 
     useEffect(() => {
@@ -33,58 +31,57 @@ const Cart = () => {
 
     return (
         <Container fluid className="p-0">
-         <Topbar />
+            <Topbar />
+            <Row className="justify-content-center">
                 <Col md={9}>
-                    <Row className="justify-content-center">
-                        <div className="container mt-4">
-                            <h2 className="text-primary">Shopping Cart</h2>
-                            <Table striped bordered hover>
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Product Name</th>
-                                        <th>Price</th>
-                                        <th>Quantity</th>
-                                        <th>Total</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {cartItems.length > 0 ? (
-                                        cartItems.map((item) => (
-                                            <tr key={item.id}>
-                                                <td>{item.id}</td>
-                                                <td>
-                                                    <img
-                                                        src={`http://localhost:8000/storage/${item.product.image}`}
-                                                        alt={item.product.product_name}
-                                                        width="50"
-                                                        height="50"
-                                                        style={{ objectFit: "cover", marginRight: "10px", borderRadius: "5px" }}
-                                                    />
-                                                    {item.product.product_name}
-                                                </td>
-                                                <td>₱{item.product.price.toFixed(2)}</td>
-                                                <td>{item.quantity}</td>
-                                                <td>₱{(item.product.price * item.quantity).toFixed(2)}</td>
-                                                <td>
-                                                    <Button variant="danger" size="sm" onClick={() => handleRemove(item.id)}>
-                                                        Remove
-                                                    </Button>
-                                                </td>
-                                            </tr>
-                                        ))
-                                    ) : (
-                                        <tr>
-                                            <td colSpan="6" className="text-center">No items in cart</td>
+                    <div className="container mt-4">
+                        <h2 className="text-primary">Shopping Cart</h2>
+                        <Table striped bordered hover>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Product Name</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {cartItems.length > 0 ? (
+                                    cartItems.map((item) => (
+                                        <tr key={item.id}>
+                                            <td>{item.id}</td>
+                                            <td>
+                                                <img
+                                                    src={`http://localhost:8000/storage/${item.product.image}`}
+                                                    alt={item.product.product_name}
+                                                    width="50"
+                                                    height="50"
+                                                    style={{ objectFit: "cover", marginRight: "10px", borderRadius: "5px" }}
+                                                />
+                                                {item.product.product_name}
+                                            </td>
+                                            <td>₱{item.product.price.toFixed(2)}</td>
+                                            <td>{item.quantity}</td>
+                                            <td>₱{(item.product.price * item.quantity).toFixed(2)}</td>
+                                            <td>
+                                                <Button variant="danger" size="sm" onClick={() => handleRemove(item.id)}>
+                                                    Remove
+                                                </Button>
+                                            </td>
                                         </tr>
-                                    )}
-                                </tbody>
-                            </Table>
-                        </div>
-                    </Row>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan="6" className="text-center">No items in cart</td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </Table>
+                    </div>
                 </Col>
-            {/* </Row> */}
+            </Row>
         </Container>
     );
 };

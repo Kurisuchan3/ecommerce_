@@ -1,77 +1,46 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use\App\Models\Cart;
+use App\Models\Cart;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+
 class CartController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
-    {
-        $user = auth()->user(); // Get authenticated user
+{
+    // Ensure Laravel recognizes the token authentication
+    $user = Auth::guard('sanctum')->user();
 
-        if (!$user) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
-
-        $request->validate([
-            'product_id' => 'required|exists:products,id',
-            'quantity' => 'required|integer|min:1',
-        ]);
-
-        // Check if the product already exists in cart
-        $cartItem = Cart::where('user_id', $user->id)
-                        ->where('product_id', $request->product_id)
-                        ->first();
-
-        if ($cartItem) {
-            // If exists, update quantity
-            $cartItem->increment('quantity', $request->quantity);
-        } else {
-            // Else, create new cart item
-            Cart::create([
-                'user_id' => $user->id,
-                'product_id' => $request->product_id,
-                'quantity' => $request->quantity,
-            ]);
-        }
-
-        return response()->json(['message' => 'Added to cart successfully']);
+    if (!$user) {
+        return response()->json(["message" => "Unauthenticated."], 401);
     }
 
+    // Store cart item
+    $cart = new Cart();
+    $cart->user_id = $user->id;
+    $cart->product_id = $request->product_id;
+    $cart->quantity = $request->quantity;
+    $cart->save();
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+    return response()->json(["message" => "Added to cart!", "cart" => $cart], 201);
+}
+    // public function index($id)
+    // {
+    //     $user = User::find($id);
+    //     dd($user);
+    //     if (!$user) {
+    //         return response()->json(['message' => 'User not found'], 404);
+    //     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+    //     $get_user_id = $user->id;
+    //     $products = Cart::where('user_id', $get_user_id)->get();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
+    //     if ($products->isEmpty()) {
+    //         return response()->json(['message' => 'No products in the cart'], 404);
+    //     }
+
+    //     return response()->json($products, 200);
+    // }
 }

@@ -53,8 +53,14 @@ Route::middleware([EnsureFrontendRequestsAreStateful::class])->group(function ()
     Route::get('/customer/products', [ProductController::class, 'index']);
 
 
-    Route::post('customer/cart', [CartController::class, 'store']);
-    Route::get('customer/cart/{user_id}', [CartController::class, 'getCartItems']);
+    // Route::post('/customer/addcart', [CartController::class, 'store']);
+    // Route::middleware(middleware: 'auth:sanctum')->post('/customer/addcart', [CartController::class, 'store']);
+    // Route::get('/customer/cart/{id}', [CartController::class, 'index']);
+    // Route::post('/customer/addcart', [CartController::class, 'store'])->middleware('auth');
+
+    Route::post('/customer/addcart', action: [CartController::class, 'store']);
+    Route::get('/customer/cart/{id}', action: [CartController::class, 'index']);
+
 
     Route::post('/ratings', [RatingController::class, 'store']);
     Route::get('/ratings/{product_id}', [RatingController::class, 'getProductRatings']);

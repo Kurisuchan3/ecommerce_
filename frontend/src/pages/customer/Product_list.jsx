@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import { FaStar, FaRegStar, FaStarHalfAlt } from "react-icons/fa";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 import Topbar from "../customer/Topbar";
 // import "../../styles/Product.css"; // Import CSS for styling
 
@@ -14,7 +14,7 @@ const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const userId = 1; // Replace with authenticated user's ID
-
+  const navigate = useNavigate();
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -29,15 +29,46 @@ const ProductList = () => {
     }
   };
 
-  const addToCart = (productId) => {
-    axios.post("http://localhost:8000/api/customer/cart", {
-      user_id: userId,
-      product_id: productId,
-      quantity: 1,
-    })
-    .then(response => alert("Added to cart!"))
-    .catch(error => console.error("Error adding to cart:", error));
-  };
+
+  const addToCart = async (product_id) => {
+    try {
+        const token = sessionStorage.getItem("token");
+
+        if (!token) {
+            alert("You need to log in first!");
+            return;
+        }
+
+        console.log("Using Token:", token);
+
+        const response = await axios.post(
+            "http://localhost:8000/api/customer/addcart",
+            { product_id, quantity: 1 },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                },
+            }
+        );
+
+        console.log("Response:", response.data);
+
+        if (response.status === 201) {
+            alert("Product added to cart successfully!");
+        } else {
+            alert("Failed to add product to cart.");
+        }
+    } catch (error) {
+        console.error("Error adding to cart:", error.response?.data || error);
+        alert("Something went wrong!");
+    }
+};
+
+
+
+
 
   // Function to render star ratings
   const renderStars = (rating) => {
@@ -83,9 +114,9 @@ const ProductList = () => {
             <Button variant="primary" size="sm" onClick={() => addToCart(product.id)}>
               Add to Cart
             </Button>
-            {/* <Link to={`/editproduct/${product.id}`}>
-              <Button variant="primary" size="sm">Edit</Button>
-            </Link>{" "} */}
+          {/* <Link to={`/customer/addcart/${product.id}`}>
+            <Button variant="primary" size="sm"> Add to Cart</Button>
+          </Link> */}
           </Card.Body>
         </Card>
       </Col>
